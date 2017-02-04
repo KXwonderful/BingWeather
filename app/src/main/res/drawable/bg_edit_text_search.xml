@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 背景 -->
+    <solid android:color="@color/light_gray" />
+    <!-- 倒圆角 -->
+    <corners android:radius="1dip"/>
+    <!-- 倒圆角 -->
+    <corners
+        android:bottomLeftRadius="16dp"
+        android:bottomRightRadius="16dp"
+        android:topLeftRadius="16dp"
+        android:topRightRadius="16dp" />
+
+    <!-- 边框 -->
+    <stroke
+        android:width="0dip"
+        android:color="@color/light_gray" />
+</shape>

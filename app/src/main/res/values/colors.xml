@@ -3,4 +3,32 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="white">#FFF</color>
+
+    <color name="black">#000</color>
+
+    <color name="gray">#8C8C8C</color>
+
+    <!-- 底灰 -->
+    <color name="gray_list_view">#f2f2f2</color>
+    <color name="gray_deep">#5c5c5c</color>
+
+    <color name="photo_top">#2E2E2E</color>
+
+    <color name="translucent">#8000</color>
+
+    <!-- 间隔 -->
+    <color name="light_gray">#f0f4f5</color>
+
+    <!-- 竖线 -->
+    <color name="light_gray_white">#e5e5e5</color>
+
+    <!-- listView颜色 -->
+    <color name="list_row_start_color">#ffffff</color>
+    <color name="list_row_end_color">#ffffff</color>
+    <color name="list_row_hover_start_color">#ebeef0</color>
+    <color name="list_row_hover_end_color">#ebeef0</color>
+
+
 </resources>

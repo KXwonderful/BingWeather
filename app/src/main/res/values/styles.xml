@@ -1,11 +1,89 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <!-- 5.0以下使用主题 -->
+    <style name="AppTheme.NoActionBar" >
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- 横线 -->
+    <style name="horizontal_line" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/light_gray_white</item>
+    </style>
+
+    <!-- 间隔横线 -->
+    <style name="Interval_horizontal_line" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">10dp</item>
+        <item name="android:background">@color/light_gray</item>
+    </style>
+
+    <!-- 分隔竖线 -->
+    <style name="vertical_line" >
+        <item name="android:layout_width">0.5dp</item>              d
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:background">@color/translucent</item>
+    </style>
+
+
+    <!-- ***************** 生活建议 ****************-->
+    <style name="suggestion_text_title" >
+        <item name="android:layout_width">wrap_content</item>              d
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:padding">10dp</item>
+    </style>
+    <style name="suggestion_horizontal_layout" >
+        <item name="android:layout_width">match_parent</item>              d
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:padding">10dp</item>
+    </style>
+    <style name="suggestion_image_big" >
+        <item name="android:layout_width">45dp</item>
+        <item name="android:layout_height">45dp</item>
+    </style>
+    <style name="suggestion_vertical_layout" >
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <style name="suggestion_text_view_big" >
+        <item name="android:layout_width">wrap_content</item>              d
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">1dp</item>
+    </style>
+    <style name="suggestion_text_view_small" >
+        <item name="android:layout_width">wrap_content</item>              d
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/translucent</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:padding">1dp</item>
+    </style>
+    <style name="suggestion_image_small" >
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+    </style>
+
 
 </resources>

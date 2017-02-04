@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_forecast_layout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <!--***************** 24hv天气信息 ****************-->
+    <TextView
+        style="@style/suggestion_text_title"
+        android:text="@string/text_forecast_hour" />
+
+    <View
+        style="@style/horizontal_line" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/test_text"
+        android:padding="40dp"
+        android:textColor="@color/translucent"/>
+
+    <View
+        style="@style/Interval_horizontal_line" />
+
+</LinearLayout>

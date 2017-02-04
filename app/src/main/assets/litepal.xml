@@ -1,0 +1,15 @@
+<litepal>
+    <!-- 指定数据库名 -->
+    <dbname value="bing_weather"/>
+
+    <!-- 指定数据库版本号 -->
+    <version value="1"/>
+
+    <!-- 指定所有的映射模型 -->
+    <list>
+        <mapping class="com.kxwon.bingweather.db.Province"/>
+        <mapping class="com.kxwon.bingweather.db.City"/>
+        <mapping class="com.kxwon.bingweather.db.County"/>
+    </list>
+
+</litepal>

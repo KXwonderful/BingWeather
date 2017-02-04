@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <!--****************** 出行建议 ****************-->
+    <TextView
+        style="@style/suggestion_text_title"
+        android:text="@string/text_suggestion_go" />
+    <View
+        style="@style/horizontal_line" />
+
+    <LinearLayout
+        style="@style/suggestion_horizontal_layout">
+
+        <ImageView
+            style="@style/suggestion_image_big"
+            android:src="@mipmap/nav_icon" />
+
+        <LinearLayout
+            style="@style/suggestion_vertical_layout">
+
+            <TextView
+                android:id="@+id/tv_suggestion_comfort"
+                style="@style/suggestion_text_view_big"
+                android:text="@string/test_text" />
+
+            <TextView
+                android:id="@+id/tv_suggestion_comfort_info"
+                style="@style/suggestion_text_view_small"
+                android:text="@string/test_text" />
+
+        </LinearLayout>
+
+        <ImageView
+            style="@style/suggestion_image_small"
+            android:src="@mipmap/nav_icon"/>
+
+    </LinearLayout>
+
+    <View
+        style="@style/horizontal_line" />
+
+    <!--********************************-->
+    <LinearLayout
+        style="@style/suggestion_horizontal_layout">
+
+        <ImageView
+            style="@style/suggestion_image_big"
+            android:src="@mipmap/nav_icon" />
+
+        <LinearLayout
+            style="@style/suggestion_vertical_layout">
+
+            <TextView
+                android:id="@+id/tv_suggestion_dress"
+                style="@style/suggestion_text_view_big"
+                android:text="@string/test_text" />
+
+            <TextView
+                android:id="@+id/tv_suggestion_dress_info"
+                style="@style/suggestion_text_view_small"
+                android:text="@string/test_text" />
+
+        </LinearLayout>
+
+        <ImageView
+            style="@style/suggestion_image_small"
+            android:src="@mipmap/nav_icon"/>
+
+    </LinearLayout>
+
+    <View
+        style="@style/horizontal_line" />
+
+    <!--********************************-->
+    <LinearLayout
+        style="@style/suggestion_horizontal_layout">
+
+        <ImageView
+            style="@style/suggestion_image_big"
+            android:src="@mipmap/nav_icon" />
+
+        <LinearLayout
+            style="@style/suggestion_vertical_layout">
+
+            <TextView
+                android:id="@+id/tv_suggestion_uv"
+                style="@style/suggestion_text_view_big"
+                android:text="@string/test_text" />
+
+            <TextView
+                android:id="@+id/tv_suggestion_uv_info"
+                style="@style/suggestion_text_view_small"
+                android:text="@string/test_text" />
+
+        </LinearLayout>
+
+        <ImageView
+            style="@style/suggestion_image_small"
+            android:src="@mipmap/nav_icon"/>
+
+    </LinearLayout>
+
+    <View
+        style="@style/Interval_horizontal_line" />
+
+
+    <!--**************** 运动建议 ***************-->
+    <TextView
+        style="@style/suggestion_text_title"
+        android:text="@string/text_suggestion_sport" />
+    <View
+        style="@style/horizontal_line" />
+
+    <LinearLayout
+        style="@style/suggestion_horizontal_layout">
+
+        <ImageView
+            style="@style/suggestion_image_big"
+            android:src="@mipmap/nav_icon" />
+
+        <LinearLayout
+            style="@style/suggestion_vertical_layout">
+
+            <TextView
+                android:id="@+id/tv_suggestion_sport"
+                style="@style/suggestion_text_view_big"
+                android:text="@string/test_text" />
+
+            <TextView
+                android:id="@+id/tv_suggestion_sport_info"
+                style="@style/suggestion_text_view_small"
+                android:text="@string/test_text" />
+
+        </LinearLayout>
+
+        <ImageView
+            style="@style/suggestion_image_small"
+            android:src="@mipmap/nav_icon"/>
+
+    </LinearLayout>
+
+    <View
+        style="@style/Interval_horizontal_line" />
+
+    <!--****************** 驾车建议 ***************-->
+    <TextView
+        style="@style/suggestion_text_title"
+        android:text="@string/text_suggestion_car" />
+    <View
+        style="@style/horizontal_line" />
+
+    <LinearLayout
+        style="@style/suggestion_horizontal_layout">
+
+        <ImageView
+            style="@style/suggestion_image_big"
+            android:src="@mipmap/nav_icon" />
+
+        <LinearLayout
+            style="@style/suggestion_vertical_layout">
+
+            <TextView
+                android:id="@+id/tv_suggestion_car"
+                style="@style/suggestion_text_view_big"
+                android:text="@string/test_text" />
+
+            <TextView
+                android:id="@+id/tv_suggestion_car_info"
+                style="@style/suggestion_text_view_small"
+                android:text="@string/test_text" />
+
+        </LinearLayout>
+
+        <ImageView
+            style="@style/suggestion_image_small"
+            android:src="@mipmap/nav_icon"/>
+
+    </LinearLayout>
+
+</LinearLayout>
