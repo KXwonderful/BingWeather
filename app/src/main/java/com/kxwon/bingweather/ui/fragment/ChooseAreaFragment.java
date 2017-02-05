@@ -18,6 +18,7 @@ import com.kxwon.bingweather.db.County;
 import com.kxwon.bingweather.db.Province;
 import com.kxwon.bingweather.ui.activity.MainActivity;
 import com.kxwon.bingweather.utils.HttpUtils;
+import com.kxwon.bingweather.utils.PrefUtils;
 import com.kxwon.bingweather.utils.ToastUtils;
 import com.kxwon.bingweather.utils.Utility;
 
@@ -94,7 +95,11 @@ public class ChooseAreaFragment extends BaseFragment {
                     Intent intent = new Intent(getActivity(), MainActivity.class);
                     intent.putExtra(Constant.WEATHER_ID,weatherId);
                     startActivity(intent);
+                    PrefUtils.setString(getActivity(), Constant.Pref.WEATHER, null);
                     getActivity().finish();
+                    if (PrefUtils.getBoolean(getContext(),Constant.Pref.FIRST_START,true)){
+                        PrefUtils.setBoolean(getContext(),Constant.Pref.FIRST_START,false);
+                    }
                     // 判断碎片是在哪个activity中
                     /*if (getActivity() instanceof MainActivity){
                         Intent intent = new Intent(getActivity(), WeatherActivity.class);

@@ -17,26 +17,25 @@
 
         <ImageView
             style="@style/suggestion_image_big"
-            android:src="@mipmap/nav_icon" />
+            android:src="@mipmap/suggestion_travel" />
 
         <LinearLayout
             style="@style/suggestion_vertical_layout">
 
             <TextView
-                android:id="@+id/tv_suggestion_comfort"
+                android:id="@+id/tv_suggestion_travel"
                 style="@style/suggestion_text_view_big"
                 android:text="@string/test_text" />
 
             <TextView
-                android:id="@+id/tv_suggestion_comfort_info"
+                android:id="@+id/tv_suggestion_travel_info"
                 style="@style/suggestion_text_view_small"
                 android:text="@string/test_text" />
 
         </LinearLayout>
 
         <ImageView
-            style="@style/suggestion_image_small"
-            android:src="@mipmap/nav_icon"/>
+            style="@style/suggestion_image_small" />
 
     </LinearLayout>
 
@@ -49,7 +48,7 @@
 
         <ImageView
             style="@style/suggestion_image_big"
-            android:src="@mipmap/nav_icon" />
+            android:src="@mipmap/suggestion_dress" />
 
         <LinearLayout
             style="@style/suggestion_vertical_layout">
@@ -67,8 +66,7 @@
         </LinearLayout>
 
         <ImageView
-            style="@style/suggestion_image_small"
-            android:src="@mipmap/nav_icon"/>
+            style="@style/suggestion_image_small" />
 
     </LinearLayout>
 
@@ -81,7 +79,7 @@
 
         <ImageView
             style="@style/suggestion_image_big"
-            android:src="@mipmap/nav_icon" />
+            android:src="@mipmap/suggestion_sunny" />
 
         <LinearLayout
             style="@style/suggestion_vertical_layout">
@@ -99,8 +97,7 @@
         </LinearLayout>
 
         <ImageView
-            style="@style/suggestion_image_small"
-            android:src="@mipmap/nav_icon"/>
+            style="@style/suggestion_image_small" />
 
     </LinearLayout>
 
@@ -120,7 +117,7 @@
 
         <ImageView
             style="@style/suggestion_image_big"
-            android:src="@mipmap/nav_icon" />
+            android:src="@mipmap/suggestion_sport" />
 
         <LinearLayout
             style="@style/suggestion_vertical_layout">
@@ -138,8 +135,7 @@
         </LinearLayout>
 
         <ImageView
-            style="@style/suggestion_image_small"
-            android:src="@mipmap/nav_icon"/>
+            style="@style/suggestion_image_small" />
 
     </LinearLayout>
 
@@ -158,7 +154,7 @@
 
         <ImageView
             style="@style/suggestion_image_big"
-            android:src="@mipmap/nav_icon" />
+            android:src="@mipmap/suggestion_car" />
 
         <LinearLayout
             style="@style/suggestion_vertical_layout">
@@ -176,8 +172,7 @@
         </LinearLayout>
 
         <ImageView
-            style="@style/suggestion_image_small"
-            android:src="@mipmap/nav_icon"/>
+            style="@style/suggestion_image_small" />
 
     </LinearLayout>
 

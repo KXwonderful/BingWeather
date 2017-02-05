@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:layout_marginTop="25dp"
+    android:layout_marginTop="15dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -15,10 +15,10 @@
             android:id="@+id/tv_temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/test_text"
             android:paddingTop="15dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColor="@color/white"
             android:textSize="45sp" />
 
         <LinearLayout
@@ -31,19 +31,19 @@
                 android:id="@+id/tv_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/test_text"
                 android:layout_marginRight="5dp"
+                android:textColor="@color/white"
                 android:textSize="15sp"/>
 
             <TextView
-                style="@style/vertical_line" />
+                style="@style/vertical_line_white" />
 
             <TextView
                 android:id="@+id/tv_weather"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/test_text"
                 android:layout_marginLeft="5dp"
+                android:textColor="@color/white"
                 android:textSize="15sp"/>
 
         </LinearLayout>

@@ -20,29 +20,30 @@
     <application
         android:name=".app.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.AddCityActivity">
+        <activity android:name=".ui.activity.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.MainActivity"/>
+        <activity android:name=".ui.activity.MainActivity" />
 
         <!-- 百度开发者 Key 配置 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="fKWO7EvFPf0hBh522O70lqEL5vz2joMq" />
+            android:value="Afsw9rEkBl9PzkrGBwDyGEr073dqcYt8" />
         <!-- 注册百度 LBS SDK 中的服务 -->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
 
+        <activity android:name=".ui.activity.AddCityActivity"/>
     </application>
 
 </manifest>

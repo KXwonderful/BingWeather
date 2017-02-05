@@ -13,8 +13,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-
 /**
  * Function：解析和处理服务器返回的数据
  * Author：kxwon on 2017/2/1 15:53
@@ -94,7 +92,7 @@ public class Utility {
     /**
      * 将返回的 JSON 数据解析成 Weather 实体类
      */
-    public static Weather handleWeatherReponse(String response){
+    public static Weather handleWeatherResponse(String response){
         try {
             JSONObject jsonObject = new JSONObject(response);
             JSONArray jsonArray = jsonObject.getJSONArray("HeWeather5");

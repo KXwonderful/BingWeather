@@ -42,10 +42,14 @@ public class DayForecast {
 
     public class More{
         @SerializedName("txt_d")
-        public String info_d; //白天天气状况代码
+        public String info_d; //白天天气状况
 
         @SerializedName("txt_n")
-        public String info_n; //夜间天气状况代码
+        public String info_n; //夜间天气状况
+
+        public String code_n; //夜间天气状况代码
+
+        public String code_d; //夜间天气状况代码
     }
 
     public class Wind{

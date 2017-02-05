@@ -26,7 +26,10 @@ import com.kxwon.bingweather.gson.SearchCity;
 import com.kxwon.bingweather.ui.adapter.CommonAdapter;
 import com.kxwon.bingweather.ui.adapter.ViewHolder;
 import com.kxwon.bingweather.utils.HttpUtils;
+import com.kxwon.bingweather.utils.IntentUtils;
 import com.kxwon.bingweather.utils.PrefUtils;
+import com.kxwon.bingweather.utils.StatusBarUtils;
+import com.kxwon.bingweather.utils.StringUtils;
 import com.kxwon.bingweather.utils.ToastUtils;
 import com.kxwon.bingweather.utils.Utility;
 
@@ -75,9 +78,9 @@ public class AddCityActivity extends BaseActivity {
 
     private void initLocation() {
         LocationClientOption option = new LocationClientOption();
-        option.setScanSpan(60000*60*8);  //8小时更新下当前位置
+        option.setScanSpan(8000);  //8秒更新下当前位置
         option.setIsNeedAddress(true);
-        //option.setLocationMode(LocationClientOption.LocationMode.Device_Sensors);
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         mLocationClient.setLocOption(option);
     }
 
@@ -85,7 +88,7 @@ public class AddCityActivity extends BaseActivity {
     public class MyLocationListener implements BDLocationListener {
 
         @Override
-        public void onReceiveLocation(BDLocation bdLocation) {
+        public void onReceiveLocation(final BDLocation bdLocation) {
             // 当前定位
             if (bdLocation.getDistrict()!= null){
                 tvLocatedCity.setText(bdLocation.getDistrict());
@@ -125,6 +128,7 @@ public class AddCityActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         mLocationClient.stop();//停止定位
+        StatusBarUtils.StatusBarDarkMode(this);// 还原系统状态栏
     }
 
     @Override
@@ -134,6 +138,11 @@ public class AddCityActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+
+        StatusBarUtils.StatusBarLightMode(AddCityActivity.this);
+
+        isFirstStart = PrefUtils.getBoolean(this, Constant.Pref.FIRST_START,true);
+
         // 声明权限，将权限添加到list集合中再一次性申请
         List<String> permissionList = new ArrayList<>();
         if (ActivityCompat.checkSelfPermission(AddCityActivity.this,
@@ -160,7 +169,7 @@ public class AddCityActivity extends BaseActivity {
         // 默认软键盘不弹出
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        isFirstStart = PrefUtils.getBoolean(this, Constant.Pref.FIRST_START,true);
+
     }
 
     @Override
@@ -274,10 +283,10 @@ public class AddCityActivity extends BaseActivity {
                             //获取所在城市的id
                             String weatherId = getItem(holder.getPosition()).basic.id;
                             //ToastUtils.showShort(weatherId);
+                            PrefUtils.setString(AddCityActivity.this, Constant.Pref.WEATHER, null);
                             //跳转到 MainActivity
-                            Intent intent = new Intent(AddCityActivity.this, MainActivity.class);
-                            intent.putExtra(Constant.WEATHER_ID,weatherId);
-                            startActivity(intent);
+                            IntentUtils.myIntentString(AddCityActivity.this, MainActivity.class,
+                                    Constant.WEATHER_ID,weatherId);
                             finish();
                         }
                     });
@@ -294,13 +303,12 @@ public class AddCityActivity extends BaseActivity {
         if (!isFirstStart) {
             // 返回
             finish();
-            //ToastUtils.showShort("返回");
         } else {
             //跳转到开始MainActivity
-            Intent intent = new Intent(AddCityActivity.this, MainActivity.class);
-            intent.putExtra(Constant.WEATHER_ID,tvLocatedCity.getText().toString());
-            startActivity(intent);
+            IntentUtils.myIntentString(AddCityActivity.this, MainActivity.class,
+                    Constant.WEATHER_ID,tvLocatedCity.getText().toString());
             // 更新sp
+            PrefUtils.setString(AddCityActivity.this, Constant.Pref.WEATHER, null);
             PrefUtils.setBoolean(AddCityActivity.this, Constant.Pref.FIRST_START, false);
             finish();
         }
@@ -320,12 +328,18 @@ public class AddCityActivity extends BaseActivity {
      */
     @OnClick(R.id.layout_locate)
     public void setLayoutLocate(){
-        //ToastUtils.showShort(tvLocatedCity.getText().toString());
-        //跳转到开始MainActivity
-        Intent intent = new Intent(AddCityActivity.this, MainActivity.class);
-        intent.putExtra(Constant.WEATHER_ID,tvLocatedCity.getText().toString());
-        startActivity(intent);
-        finish();
+        if (!StringUtils.removeAllSpace(tvLocatedCity.getText().toString()).equals("")) {
+            //跳转到开始MainActivity
+            IntentUtils.myIntentString(AddCityActivity.this, MainActivity.class,
+                    Constant.WEATHER_ID,tvLocatedCity.getText().toString());
+            // 更新sp
+            PrefUtils.setString(AddCityActivity.this, Constant.Pref.WEATHER, null);
+            PrefUtils.setBoolean(AddCityActivity.this, Constant.Pref.FIRST_START, false);
+            finish();
+        }else {
+            requestLocation();
+        }
+
     }
 
 

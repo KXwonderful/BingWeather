@@ -17,20 +17,20 @@
             android:id="@+id/tv_now_wind"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/test_text"
+            android:textColor="@color/white"
             android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/tv_now_wind_scale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/test_text"
+            android:textColor="@color/white"
             android:textSize="20sp"/>
 
     </LinearLayout>
 
     <TextView
-        style="@style/vertical_line" />
+        style="@style/vertical_line_white" />
 
     <!--***************** 相对湿度 ****************-->
     <LinearLayout
@@ -42,20 +42,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/test_text"
+            android:text="@string/text_now_humidity"
+            android:textColor="@color/white"
             android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/tv_now_humidity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/test_text"
+            android:textColor="@color/white"
             android:textSize="20sp"/>
 
     </LinearLayout>
 
     <TextView
-        style="@style/vertical_line" />
+        style="@style/vertical_line_white" />
 
     <!--***************** 天气质量 ****************-->
     <LinearLayout
@@ -68,14 +69,14 @@
             android:id="@+id/tv_now_air"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/test_text"
+            android:textColor="@color/white"
             android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/tv_now_air_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/test_text"
+            android:textColor="@color/white"
             android:textSize="20sp"/>
 
     </LinearLayout>

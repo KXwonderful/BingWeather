@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
+    android:padding="8dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -8,7 +9,9 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:padding="5dp"
-        android:src="@mipmap/nav_icon"/>
+        android:layout_gravity="center_vertical"
+        android:src="@mipmap/nav_icon"
+        android:id="@+id/iv_forecast_cloud" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,6 +20,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -25,9 +29,13 @@
 
                 <!--************ 天气预报日期 ***********-->
                 <TextView
-                    android:id="@+id/tv_date"
+                    android:id="@+id/tv_forecast_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:textColor="@color/black"
                     android:text="@string/test_text"/>
 
                 <!--************ 天气概况 ***********-->
@@ -37,53 +45,71 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/tv_info"
+                        android:id="@+id/tv_forecast_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:text="@string/text_air_quality"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"/>
-
-                    <TextView
-                        style="@style/vertical_line" />
-
-                    <TextView
-                        android:id="@+id/tv_info_aqi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
+                        android:padding="2dp"
                         android:text="@string/test_text"
                         android:textColor="@color/translucent"
-                        android:textSize="16sp"/>
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        style="@style/vertical_line"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_forecast_wind"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="@string/test_text"
+                        android:textColor="@color/translucent"
+                        android:textSize="12sp"/>
 
                 </LinearLayout>
 
             </LinearLayout>
 
-            <!--************ 最高温 ***********-->
-            <TextView
-                android:id="@+id/tv_max"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="@string/test_text"/>
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="15dp"
+                android:gravity="end"
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="@string/test_text"/>
+                <!--************ 最高温 ***********-->
+                <TextView
+                    android:id="@+id/tv_forecast_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:text="@string/test_text"/>
 
-            <!--************ 最低温 ***********-->
-            <TextView
-                android:id="@+id/tv_min"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="@string/test_text"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:textSize="18sp"
+                    android:text="@string/slash"/>
+
+                <!--************ 最低温 ***********-->
+                <TextView
+                    android:id="@+id/tv_forecast_min"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:text="@string/test_text"/>
+            </LinearLayout>
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_forecast_horizontal_line"
+            style="@style/horizontal_line" />
 
     </LinearLayout>
 

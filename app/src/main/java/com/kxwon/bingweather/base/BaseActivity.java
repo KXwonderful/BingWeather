@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.kxwon.bingweather.utils.StatusBarUtils;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -52,7 +54,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         mBinder = ButterKnife.bind(this);
 
-        ClearStatusBar();
+        //ClearStatusBar();
+        StatusBarUtils.transparencyBar(this);
 
         initData();
 

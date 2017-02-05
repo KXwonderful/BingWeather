@@ -1,7 +1,5 @@
 package com.kxwon.bingweather.common;
 
-import com.kxwon.bingweather.gson.SearchCity;
-
 /**
  * Function：常量
  * Author：kxwon on 2017/2/1 16:39
@@ -21,6 +19,9 @@ public class Constant {
     public static final int LEVEL_CITY = 1;
     public static final int LEVEL_COUNTY = 2;
 
+    // 默认天气id
+    public static final String DEFAULT_WEATHER_ID = "CN101010100";
+
     // 获取地区url
     public static final String URL_ADDRESS_BASE = "http://guolin.tech/api/china";
     // 获取查询城市url（和风api）
@@ -31,8 +32,11 @@ public class Constant {
 
     // 获取天气url
     public static final String URL_WEATHER_BASE = "https://free-api.heweather.com/v5/";
-    public static final String URL_WEATHER = "https://free-api.heweather.com/v5/weather";
+    public static final String URL_WEATHER = "https://free-api.heweather.com/v5/weather?city=";
     public static final String URL_WEATHER_KEY = "7a19535621fe46f9ad4b6491b3970b98";
+
+    // 获取天气图标url
+    public static final String URL_COND_ICON = "http://files.heweather.com/cond_icon/";
 
     // 天气 id
     public static final String WEATHER_ID = "weather_id";

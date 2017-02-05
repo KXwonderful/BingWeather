@@ -3,23 +3,34 @@
 
     <string name="title">标题</string>
 
+    <string name="test_text">测试</string>
+
+    <string name="slash">/</string>
+
+    <!--************** NOW **************-->
+    <string name="text_now_humidity">相对湿度</string>
+
+    <!--************** 预报 **************-->
     <string name="text_forecast">预报</string>
     <string name="text_forecast_day">15天趋势预报</string>
     <string name="text_forecast_hour">24小时预报</string>
 
+    <!--************** 空气质量 **************-->
     <string name="text_air_quality">空气质量</string>
     <string name="text_air_quality_detail">空气质量详情</string>
 
-    <string name="text_aqi">AQI 指数</string>
+    <string name="text_aqi">AQI</string>
+    <string name="text_aqi_des">空气质量指数</string>
 
-    <string name="text_pm25">PM2.5 指数</string>
+    <string name="text_pm25">PM2.5</string>
+    <string name="text_pm25_des">首要污染物</string>
 
+    <!--************** 建议 **************-->
     <string name="text_suggestion_go">出行建议</string>
     <string name="text_suggestion_sport">运动建议</string>
     <string name="text_suggestion_car">驾车建议</string>
 
-    <string name="test_text">测试</string>
-
+    <!--************** 选择城市 **************-->
     <string name="et_search_city">搜索城市</string>
 
     <string name="tv_locate_city">当前定位</string>
