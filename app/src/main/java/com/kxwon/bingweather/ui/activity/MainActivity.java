@@ -1,18 +1,21 @@
 package com.kxwon.bingweather.ui.activity;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
-import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -21,13 +24,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechError;
+import com.iflytek.cloud.SpeechSynthesizer;
+import com.iflytek.cloud.SpeechUtility;
+import com.iflytek.cloud.SynthesizerListener;
 import com.kxwon.bingweather.R;
 import com.kxwon.bingweather.base.BaseActivity;
 import com.kxwon.bingweather.common.AppBarStateChangeListener;
 import com.kxwon.bingweather.common.Constant;
 import com.kxwon.bingweather.gson.DayForecast;
 import com.kxwon.bingweather.gson.Weather;
+import com.kxwon.bingweather.service.AutoUpdateService;
 import com.kxwon.bingweather.ui.widget.ColorArcProgressBar;
+import com.kxwon.bingweather.ui.widget.refresh.MyHeader;
 import com.kxwon.bingweather.utils.HttpUtils;
 import com.kxwon.bingweather.utils.IntentUtils;
 import com.kxwon.bingweather.utils.PrefUtils;
@@ -35,6 +45,7 @@ import com.kxwon.bingweather.utils.StatusBarUtils;
 import com.kxwon.bingweather.utils.StringUtils;
 import com.kxwon.bingweather.utils.ToastUtils;
 import com.kxwon.bingweather.utils.Utility;
+import com.liaoinstan.springview.widget.SpringView;
 import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
 import com.yalantis.contextmenu.lib.MenuObject;
 import com.yalantis.contextmenu.lib.MenuParams;
@@ -42,6 +53,7 @@ import com.yalantis.contextmenu.lib.interfaces.OnMenuItemClickListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -53,6 +65,10 @@ import okhttp3.Response;
 
 public class MainActivity extends BaseActivity implements OnMenuItemClickListener {
 
+    @BindView(R.id.iv_speak_weather)
+    ImageView ivSpeakView;
+    @BindView(R.id.spring_view)
+    SpringView mSpringView;
     @BindView(R.id.iv_title_image)
     ImageView ivTitleImage;
     @BindView(R.id.btn_setting)
@@ -126,6 +142,13 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
 
     private ContextMenuDialogFragment mMenuDialogFragment;//菜单栏
 
+    private String speakContent;   // 播报内容
+    private String maxT;           // 今天最高温
+    private String minT;           // 今天最低温
+
+    private SpeechSynthesizer mTts;// 讯飞语音
+
+
     @Override
     protected int initLayoutId() {
         return R.layout.activity_main;
@@ -148,15 +171,19 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
                     toolbar.setVisibility(View.INVISIBLE);// 隐藏toolbar
                     //修改系统状态栏字体颜色
                     StatusBarUtils.StatusBarDarkMode(MainActivity.this);
+                    mSpringView.setEnable(true); // 支持下拉刷新
+
                 }else if (state == State.COLLAPSED){
                     // 折叠状态
                     toolbar.setVisibility(View.VISIBLE);// 显示toolbar
                     StatusBarUtils.StatusBarLightMode(MainActivity.this);//修改系统状态栏字体颜色
+                    mSpringView.setEnable(false); // 不支持下拉刷新
                 }else {
                     // 中间状态
                     toolbar.setVisibility(View.INVISIBLE);// 隐藏toolbar
                     //修改系统状态栏字体颜色
                     StatusBarUtils.StatusBarDarkMode(MainActivity.this);
+                    mSpringView.setEnable(false); // 不支持下拉刷新
                 }
             }
         });
@@ -190,6 +217,46 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
         }else {
             loadBingPic();
         }
+
+        initSpringView();
+
+        // 配置讯飞语音
+        SpeechUtility.createUtility(this, SpeechConstant.APPID + "5897ecd9");
+        mTts = SpeechSynthesizer.createSynthesizer(this, null);
+    }
+
+    /**
+     * 初始化下拉刷新
+     */
+    private void initSpringView(){
+
+        final MyHeader myHeader = new MyHeader();
+
+        mSpringView.setListener(new SpringView.OnFreshListener() {
+            @Override
+            public void onRefresh() {
+                long curTime = (new Date()).getTime();//当前的时间
+                if ((curTime - (myHeader.preLongTime) <= 1000*60*5)){//若小于5分钟不刷新
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mSpringView.onFinishFreshAndLoad();
+                        }
+                    }, 1000);
+                }else {
+                    requestWeather(mWeatherId); //刷新
+                }
+            }
+
+            @Override
+            public void onLoadmore() {
+
+            }
+        });
+
+        mSpringView.setHeader(myHeader);
+        mSpringView.setEnable(false);
+        //mSpringView.setFooter(new DefaultFooter(this));
     }
 
     /**
@@ -206,7 +273,6 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
 
     /**
      * 设置菜单项
-     *
      * @return
      */
     private List<MenuObject> getMenuObjects() {
@@ -269,7 +335,11 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
                 IntentUtils.myIntent(this, AddCityActivity.class);
                 break;
             case 2:
-                ToastUtils.showShort(getMenuObjects().get(position).getTitle());
+                Intent share_localIntent = new Intent("android.intent.action.SEND");
+                share_localIntent.setType("text/plain");
+                share_localIntent.putExtra("android.intent.extra.SUBJECT", "分享");
+                share_localIntent.putExtra("android.intent.extra.TEXT","推荐一个天气app：必应天气" +"链接:"+"xxx");
+                this.startActivity(Intent.createChooser(share_localIntent, "分享"));
                 break;
             case 3:
                 ToastUtils.showShort(getMenuObjects().get(position).getTitle());
@@ -277,7 +347,7 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
         }
     }
 
-    @OnClick({R.id.btn_setting, R.id.ll_forecast_day_layout,
+    @OnClick({R.id.btn_setting, R.id.iv_speak_weather,R.id.ll_forecast_day_layout,
             R.id.ll_forecast_hour_layout, R.id.ll_air_quality_layout})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -286,6 +356,18 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
                     mMenuDialogFragment.show(fragmentManager, ContextMenuDialogFragment.TAG);
                 }
                 break;
+
+            case R.id.iv_speak_weather:
+                if (ActivityCompat.checkSelfPermission(MainActivity.this,
+                        Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MainActivity.this,
+                            new String[]{Manifest.permission.RECORD_AUDIO}, 1);
+                }else {
+                    // 播报语音天气
+                    speakWeather(speakContent);
+                }
+                break;
+
             case R.id.ll_forecast_day_layout:
                 ToastUtils.showShort("待完善");
                 break;
@@ -334,6 +416,9 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (mSpringView != null){
+                            mSpringView.onFinishFreshAndLoad();
+                        }
                         ToastUtils.showShort("获取天气信息失败");
                         //swipeRefresh.setRefreshing(false);// 刷新结束，隐藏刷新进度条
                     }
@@ -347,6 +432,9 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (mSpringView != null){
+                            mSpringView.onFinishFreshAndLoad();
+                        }
                         if (weather != null && "ok".equals(weather.status)) {
                             PrefUtils.setString(MainActivity.this, Constant.Pref.WEATHER, responseText);
                             mWeatherId = weather.basic.weatherId;
@@ -414,6 +502,8 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
             Glide.with(this).load(Constant.URL_COND_ICON + ivCode).into(ivCloud);
             if (dayForecast.equals(weather.dayForecastList.get(0))) {
                 tvDate.setText("今天");
+                maxT = dayForecast.temperature.max + "摄氏度";
+                minT = dayForecast.temperature.min + "摄氏度";
             }else if (dayForecast.equals(weather.dayForecastList.get(1))){
                 tvDate.setText("明天");
             }else if (dayForecast.equals(weather.dayForecastList.get(2))){
@@ -453,8 +543,20 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
             capBarPm25.setCurrentValues(StringUtils.stringToInt(weather.aqi.city.pm25)); // 设置当前进度
 
             llAirQualityLayout.setVisibility(View.VISIBLE);// 显示天气质量
+
+            speakContent = "必应天气为您播报最新天气:" + cityName +
+                    ",今天白天到晚间" + weatherRegime +
+                    ",最高温:"+ maxT +
+                    ",最低温:"+ minT +
+                    "," + wind + windScale +
+                    ",空气质量:"+ weather.aqi.city.qlty;
         }else {
             llAirQualityLayout.setVisibility(View.GONE);// 隐藏天气质量
+            speakContent = "必应天气为您播报最新天气:" + cityName +
+                    ",今天白天到晚间" + weatherRegime +
+                    ",最高温:"+ maxT +
+                    ",最低温:"+ minT +
+                    "," + wind + windScale;
         }
 
         // 出行建议
@@ -486,12 +588,97 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
         nsvLayout.setVisibility(View.VISIBLE);
 
         // 开启服务
-        //Intent intent = new Intent(this, AutoUpdateService.class);
-        //startService(intent);
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        startService(intent);
 
     }
 
 
+    /**
+     * 讯飞语音合成监听器
+     */
+    private SynthesizerListener mTtsListener = new SynthesizerListener() {
+        // 缓冲进度回调，arg0为缓冲进度，arg1为缓冲音频在文本中开始的位置，arg2为缓冲音频在文本中结束的位置，arg3为附加信息
+        @Override
+        public void onBufferProgress(int arg0, int arg1, int arg2, String arg3) {
+
+        }
+
+        // 会话结束回调接口，没有错误时error为空
+        @Override
+        public void onCompleted(SpeechError error) {
+
+        }
+
+        // 开始播放
+        @Override
+        public void onSpeakBegin() {
+
+        }
+
+        // 停止播放
+        @Override
+        public void onSpeakPaused() {
+
+        }
+
+        // 播放进度回调,arg0为播放进度0-100；arg1为播放音频在文本中开始的位置，arg2为播放音频在文本中结束的位置。
+        @Override
+        public void onSpeakProgress(int arg0, int arg1, int arg2) {
+
+        }
+
+        // 恢复播放回调接口
+        @Override
+        public void onSpeakResumed() {
+
+        }
+    };
+
+    private void speakWeather(String speakContent) {
+        // 设置发音人
+        mTts.setParameter(SpeechConstant.VOICE_NAME, "xiaoyan");
+
+        // 设置语速
+        mTts.setParameter(SpeechConstant.SPEED, "50");
+
+        // 设置音调
+        mTts.setParameter(SpeechConstant.PITCH, "50");
+
+        // 设置音量0-100
+        mTts.setParameter(SpeechConstant.VOLUME, "80");
+
+        // 设置播放器音频流类型
+        mTts.setParameter(SpeechConstant.STREAM_TYPE, "3");
+
+        // 开始合成
+        mTts.startSpeaking(speakContent, mTtsListener);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        switch (requestCode){
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    speakWeather(speakContent);
+                }else {
+                    ToastUtils.showShort("你拒绝了权限请求");
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        mTts.stopSpeaking();
+        mTts.destroy();// 退出时释放连接
+        super.onDestroy();
+    }
 
     @Override
     protected void initData() {

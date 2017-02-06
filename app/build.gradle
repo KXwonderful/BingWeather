@@ -34,6 +34,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.yalantis:contextmenu:1.0.7'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    compile 'com.liaoinstan.springview:library:1.2.7'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

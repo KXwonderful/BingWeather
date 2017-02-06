@@ -46,6 +46,13 @@
                 android:textColor="@color/white"
                 android:textSize="15sp"/>
 
+            <ImageView
+                android:id="@+id/iv_speak_weather"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:padding="4dp"
+                android:src="@mipmap/bg_speak"/>
+
         </LinearLayout>
 
     </LinearLayout>
