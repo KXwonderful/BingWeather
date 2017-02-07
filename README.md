@@ -1,5 +1,6 @@
 # BingWeather
 &emsp;&emsp;一个简单天气应用，仿小米天气界面，效果如下：
+
 ![必应天气效果](http://upload-images.jianshu.io/upload_images/2509931-cd791754fe76ce4f.gif?imageMogr2/auto-orient/strip)
 
 
