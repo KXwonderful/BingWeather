@@ -1,5 +1,8 @@
 # BingWeather
 &emsp;&emsp;一个简单天气应用，仿小米天气界面，效果如下：
+![必应天气效果](http://upload-images.jianshu.io/upload_images/2509931-cd791754fe76ce4f.gif?imageMogr2/auto-orient/strip)
+
+
 &emsp;&emsp;实现的功能有：
 * 定位城市，查看城市天气信息
 * 播报语音天气
