@@ -14,6 +14,9 @@ public class Constant {
         public static final String BRING_PIC = "bing_pic";// 必应图片
     }
 
+    // day_天气预报
+    public static final String DAY_FORECAST = "day_forecast";
+
     // 省市县
     public static final int LEVEL_PROVINCE = 0;
     public static final int LEVEL_CITY = 1;
@@ -33,6 +36,7 @@ public class Constant {
     // 获取天气url
     public static final String URL_WEATHER_BASE = "https://free-api.heweather.com/v5/";
     public static final String URL_WEATHER = "https://free-api.heweather.com/v5/weather?city=";
+    public static final String URL_WEATHER_FORECAST_DAY = "https://free-api.heweather.com/v5/forecast?city=";
     public static final String URL_WEATHER_KEY = "7a19535621fe46f9ad4b6491b3970b98";
 
     // 获取天气图标url

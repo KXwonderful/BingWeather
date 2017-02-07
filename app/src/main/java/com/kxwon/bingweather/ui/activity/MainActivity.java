@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -34,6 +35,7 @@ import com.kxwon.bingweather.base.BaseActivity;
 import com.kxwon.bingweather.common.AppBarStateChangeListener;
 import com.kxwon.bingweather.common.Constant;
 import com.kxwon.bingweather.gson.DayForecast;
+import com.kxwon.bingweather.gson.HourForecast;
 import com.kxwon.bingweather.gson.Weather;
 import com.kxwon.bingweather.service.AutoUpdateService;
 import com.kxwon.bingweather.ui.widget.ColorArcProgressBar;
@@ -59,12 +61,23 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import lecho.lib.hellocharts.gesture.ZoomType;
+import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
+import lecho.lib.hellocharts.model.Line;
+import lecho.lib.hellocharts.model.LineChartData;
+import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.model.ValueShape;
+import lecho.lib.hellocharts.model.Viewport;
+import lecho.lib.hellocharts.view.LineChartView;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
 public class MainActivity extends BaseActivity implements OnMenuItemClickListener {
 
+    @BindView(R.id.hour_line_chart)
+    LineChartView hourLineChart;
     @BindView(R.id.iv_speak_weather)
     ImageView ivSpeakView;
     @BindView(R.id.spring_view)
@@ -147,6 +160,12 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
     private String minT;           // 今天最低温
 
     private SpeechSynthesizer mTts;// 讯飞语音
+
+    // 24 小时预报
+    private List<PointValue> mPointValues = new ArrayList<PointValue>();
+    private List<AxisValue> mAxisXValues = new ArrayList<AxisValue>();
+    private List<String> hour = new ArrayList<>();         // 横坐标数据
+    private List<Integer> temperature = new ArrayList<>(); // 温度
 
 
     @Override
@@ -297,8 +316,8 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
         MenuObject close = new MenuObject();
         close.setResource(R.mipmap.icn_close);
 
-        MenuObject send = new MenuObject("添加/删除城市");
-        send.setResource(R.mipmap.icn_edit);
+        MenuObject send = new MenuObject("切换城市");
+        send.setResource(R.mipmap.icn_switch);
 
         MenuObject like = new MenuObject("分享天气");
         Bitmap b = BitmapFactory.decodeResource(getResources(), R.mipmap.icn_share);
@@ -369,13 +388,16 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
                 break;
 
             case R.id.ll_forecast_day_layout:
-                ToastUtils.showShort("待完善");
+                // TODO
+                Intent intent = new Intent(MainActivity.this,ForecastDayActivity.class);
+                intent.putExtra(Constant.DAY_FORECAST,mWeatherId);
+                startActivity(intent);
                 break;
             case R.id.ll_forecast_hour_layout:
-                ToastUtils.showShort("待完善");
+                //ToastUtils.showShort("待完善");
                 break;
             case R.id.ll_air_quality_layout:
-                ToastUtils.showShort("待完善");
+                //ToastUtils.showShort("待完善");
                 break;
         }
     }
@@ -438,6 +460,7 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
                         if (weather != null && "ok".equals(weather.status)) {
                             PrefUtils.setString(MainActivity.this, Constant.Pref.WEATHER, responseText);
                             mWeatherId = weather.basic.weatherId;
+
                             showWeatherInfo(weather);
                         } else {
                             ToastUtils.showShort("获取天气信息失败");
@@ -522,7 +545,12 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
         }
 
         // 24小时预报
-        // ...
+        for (HourForecast hourForecast : weather.hourForecastList){
+            hour.add(hourForecast.date.substring(11,16));
+            temperature.add(StringUtils.stringToInt(hourForecast.temperature));
+        }
+        initLineChart();
+
 
         // 空气质量
         if (weather.aqi != null){
@@ -635,6 +663,10 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
         }
     };
 
+    /**
+     * 播报语音
+     * @param speakContent
+     */
     private void speakWeather(String speakContent) {
         // 设置发音人
         mTts.setParameter(SpeechConstant.VOICE_NAME, "xiaoyan");
@@ -670,6 +702,69 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
 
             default:
                 break;
+        }
+    }
+
+    /**
+     * 初始化LineChart的一些设置
+     */
+    private void initLineChart(){
+
+        getAxisXLables();//获取x轴的标注
+        getAxisPoints();//获取坐标点
+
+        Line line = new Line(mPointValues).setColor(Color.parseColor("#2894FF"));  //折线的颜色
+        List<Line> lines = new ArrayList<Line>();
+        line.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状
+        line.setCubic(true);//曲线是否平滑
+	    line.setStrokeWidth(2);//线条的粗细，默认是3
+        line.setFilled(false);//是否填充曲线的面积
+        line.setHasLabels(true);//曲线的数据坐标是否加上备注
+        line.setHasLines(true);//是否用直线显示。如果为false 则没有曲线只有点显示
+        line.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示
+        lines.add(line);
+        LineChartData data = new LineChartData();
+        data.setLines(lines);
+
+        //坐标轴
+        Axis axisX = new Axis(); //X轴
+        axisX.setHasTiltedLabels(false);  //X轴下面坐标轴字体是斜的显示还是直的，true是斜的显示
+        axisX.setTextColor(R.color.gray_deep);//设置字体颜色
+
+        axisX.setTextSize(11);//设置字体大小
+        axisX.setMaxLabelChars(7); //X轴坐标显示个数
+        axisX.setValues(mAxisXValues);  //填充X轴的坐标名称
+        data.setAxisXBottom(axisX); //x 轴在底部
+        axisX.setHasLines(false); //x 轴分割线
+
+
+        //设置行为属性，支持缩放、滑动以及平移
+        hourLineChart.setInteractive(true);
+        hourLineChart.setZoomType(ZoomType.HORIZONTAL); //缩放类型，水平
+        hourLineChart.setMaxZoom((float) 3);//缩放比例
+        hourLineChart.setLineChartData(data);
+        hourLineChart.setVisibility(View.VISIBLE);
+
+        Viewport v = new Viewport(hourLineChart.getMaximumViewport());
+        v.left = 0;
+        v.right= 7;
+        hourLineChart.setCurrentViewport(v);
+    }
+
+    /**
+     * X 轴的显示
+     */
+    private void getAxisXLables(){
+        for (int i = 0; i < hour.size(); i++) {
+            mAxisXValues.add(new AxisValue(i).setLabel(hour.get(i) ));
+        }
+    }
+    /**
+     * 图的每个点的显示
+     */
+    private void getAxisPoints(){
+        for (int i = 0; i < temperature.size(); i++) {
+            mPointValues.add(new PointValue(i, temperature.get(i)));
         }
     }
 

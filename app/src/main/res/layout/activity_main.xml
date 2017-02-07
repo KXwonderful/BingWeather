@@ -18,7 +18,7 @@
             <android.support.design.widget.AppBarLayout
                 android:id="@+id/appBar"
                 android:layout_width="match_parent"
-                android:layout_height="300dp">
+                android:layout_height="360dp">
 
                 <!-- android:theme 指定主题
                 app:contentScrim 指定CollapsingToolbarLayout在趋于折叠以及折叠之后的背景色

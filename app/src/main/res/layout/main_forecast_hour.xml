@@ -14,13 +14,18 @@
     <View
         style="@style/horizontal_line" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/test_text"
-        android:padding="40dp"
-        android:textColor="@color/translucent"/>
+        android:padding="5dp">
+
+        <lecho.lib.hellocharts.view.LineChartView
+            android:id="@+id/hour_line_chart"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/white"/>
+    </RelativeLayout>
+
 
     <View
         style="@style/Interval_horizontal_line" />

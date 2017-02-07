@@ -15,7 +15,7 @@
 
     <!--************** 预报 **************-->
     <string name="text_forecast">预报</string>
-    <string name="text_forecast_day">15天趋势预报</string>
+    <string name="text_forecast_day">未来几天趋势预报</string>
     <string name="text_forecast_hour">24小时预报</string>
 
     <!--************** 空气质量 **************-->

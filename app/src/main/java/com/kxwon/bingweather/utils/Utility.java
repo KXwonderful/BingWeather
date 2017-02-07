@@ -8,6 +8,7 @@ import com.kxwon.bingweather.db.County;
 import com.kxwon.bingweather.db.Province;
 import com.kxwon.bingweather.gson.SearchCity;
 import com.kxwon.bingweather.gson.Weather;
+import com.kxwon.bingweather.gson.WeatherDayForecast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -98,6 +99,21 @@ public class Utility {
             JSONArray jsonArray = jsonObject.getJSONArray("HeWeather5");
             String weatherContent = jsonArray.getJSONObject(0).toString();
             return new Gson().fromJson(weatherContent,Weather.class);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 将返回的 JSON 数据解析成 WeatherDayForecast 实体类
+     */
+    public static WeatherDayForecast handleDayForecastResponse(String response){
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("HeWeather5");
+            String weatherContent = jsonArray.getJSONObject(0).toString();
+            return new Gson().fromJson(weatherContent,WeatherDayForecast.class);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_forecast_day"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.kxwon.bingweather.ui.activity.ForecastDayActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="15dp"
+        android:textSize="18sp"
+        android:layout_marginTop="25dp"
+        android:textColor="@color/black"
+        android:text="@string/text_forecast_day"/>
+
+    <me.zhouzhuo.zzweatherview.ZzWeatherView
+        android:id="@+id/forecast_day_weather"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_centerInParent="true"
+        android:scrollbarThumbHorizontal="@drawable/scroll_bar_thumb"
+        android:scrollbarTrackHorizontal="@drawable/scroll_bar_thumb"
+        android:scrollbarSize="10dp"
+        android:background="@color/gray_deep">
+
+    </me.zhouzhuo.zzweatherview.ZzWeatherView>
+
+    <ImageView
+        android:id="@+id/iv_quit_forecast"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:padding="5dp"
+        android:layout_marginBottom="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/bg_quit"/>
+
+</RelativeLayout>

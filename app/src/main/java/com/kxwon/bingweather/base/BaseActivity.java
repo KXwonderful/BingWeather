@@ -57,9 +57,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         //ClearStatusBar();
         StatusBarUtils.transparencyBar(this);
 
+        initView();
+
         initData();
 
-        initView();
     }
 
     /**

@@ -19,6 +19,12 @@ android {
     }
 }
 
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -35,6 +41,8 @@ dependencies {
     compile 'com.yalantis:contextmenu:1.0.7'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile 'com.liaoinstan.springview:library:1.2.7'
+    compile 'me.zhouzhuo.zzweatherview:zz-weather-view:1.0.0'
+    compile 'com.github.lecho:hellocharts-android:v1.5.8'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }
