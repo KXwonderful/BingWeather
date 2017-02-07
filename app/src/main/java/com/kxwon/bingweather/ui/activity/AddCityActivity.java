@@ -1,7 +1,6 @@
 package com.kxwon.bingweather.ui.activity;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -66,6 +65,8 @@ public class AddCityActivity extends BaseActivity {
     // 判断是否第一次启动
     boolean isFirstStart;
 
+    private int SystemStatusType = 0;
+
     private LocationClient mLocationClient;
 
     /**
@@ -128,7 +129,7 @@ public class AddCityActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         mLocationClient.stop();//停止定位
-        StatusBarUtils.StatusBarDarkMode(this);// 还原系统状态栏
+        StatusBarUtils.StatusBarDarkMode(this,SystemStatusType);// 还原系统状态栏
     }
 
     @Override
@@ -139,7 +140,7 @@ public class AddCityActivity extends BaseActivity {
     @Override
     protected void initView() {
 
-        StatusBarUtils.StatusBarLightMode(AddCityActivity.this);
+        SystemStatusType = StatusBarUtils.StatusBarLightMode(AddCityActivity.this);
 
         isFirstStart = PrefUtils.getBoolean(this, Constant.Pref.FIRST_START,true);
 

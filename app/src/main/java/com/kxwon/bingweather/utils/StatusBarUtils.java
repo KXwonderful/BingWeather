@@ -104,15 +104,6 @@ public class StatusBarUtils {
     /**
      * 清除MIUI或flyme或6.0以上版本状态栏黑色字体
      */
-    public static void StatusBarDarkMode(Activity activity){
-        MIUISetStatusBarLightMode(activity.getWindow(), false);
-        FlymeSetStatusBarLightMode(activity.getWindow(), false);
-        activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-    }
-
-    /**
-     * 清除MIUI或flyme或6.0以上版本状态栏黑色字体
-     */
     public static void StatusBarDarkMode(Activity activity,int type){
         if(type==1){
             MIUISetStatusBarLightMode(activity.getWindow(), false);

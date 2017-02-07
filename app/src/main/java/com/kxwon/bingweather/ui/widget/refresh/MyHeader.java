@@ -87,7 +87,7 @@ public class MyHeader extends BaseHeader{
      */
     @Override
     public int getDragLimitHeight(View rootView) {
-        return super.getDragLimitHeight(rootView);
+        return 100;
     }
 
     /**
@@ -107,6 +107,6 @@ public class MyHeader extends BaseHeader{
      */
     @Override
     public int getDragSpringHeight(View rootView) {
-        return super.getDragSpringHeight(rootView);
+        return 250;
     }
 }

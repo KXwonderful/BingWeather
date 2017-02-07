@@ -167,6 +167,8 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
     private List<String> hour = new ArrayList<>();         // 横坐标数据
     private List<Integer> temperature = new ArrayList<>(); // 温度
 
+    private int SystemStatusType = 0;
+
 
     @Override
     protected int initLayoutId() {
@@ -189,19 +191,19 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
                     // 展开状态
                     toolbar.setVisibility(View.INVISIBLE);// 隐藏toolbar
                     //修改系统状态栏字体颜色
-                    StatusBarUtils.StatusBarDarkMode(MainActivity.this);
+                    //StatusBarUtils.StatusBarDarkMode(MainActivity.this,SystemStatusType);
                     mSpringView.setEnable(true); // 支持下拉刷新
 
                 }else if (state == State.COLLAPSED){
                     // 折叠状态
                     toolbar.setVisibility(View.VISIBLE);// 显示toolbar
-                    StatusBarUtils.StatusBarLightMode(MainActivity.this);//修改系统状态栏字体颜色
+                    SystemStatusType = StatusBarUtils.StatusBarLightMode(MainActivity.this);//修改系统状态栏字体颜色
                     mSpringView.setEnable(false); // 不支持下拉刷新
                 }else {
                     // 中间状态
                     toolbar.setVisibility(View.INVISIBLE);// 隐藏toolbar
                     //修改系统状态栏字体颜色
-                    StatusBarUtils.StatusBarDarkMode(MainActivity.this);
+                    //StatusBarUtils.StatusBarDarkMode(MainActivity.this,SystemStatusType);
                     mSpringView.setEnable(false); // 不支持下拉刷新
                 }
             }
@@ -261,7 +263,7 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
                         public void run() {
                             mSpringView.onFinishFreshAndLoad();
                         }
-                    }, 1000);
+                    }, 2000);
                 }else {
                     requestWeather(mWeatherId); //刷新
                 }
