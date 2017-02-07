@@ -27,15 +27,15 @@ public class DateUtils {
             e.printStackTrace();
         }
         String mWeek = "";
-        if(c.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY){
+        if(c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
             mWeek ="天";
         }else if(c.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY){
             mWeek ="一";
-        }else if(c.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY){
+        }else if(c.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY){
             mWeek ="二";
         } else if(c.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY){
             mWeek ="三";
-        }else if(c.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY){
+        }else if(c.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY){
             mWeek ="四";
         }else if(c.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY){
             mWeek ="五";

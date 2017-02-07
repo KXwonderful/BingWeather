@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -69,6 +70,10 @@ public class AddCityActivity extends BaseActivity {
 
     private LocationClient mLocationClient;
 
+    private String mDistrict;
+    private String mCity;
+    private boolean isExist = false;
+
     /**
      * 开始地理位置定位
      */
@@ -79,7 +84,7 @@ public class AddCityActivity extends BaseActivity {
 
     private void initLocation() {
         LocationClientOption option = new LocationClientOption();
-        option.setScanSpan(8000);  //8秒更新下当前位置
+        option.setScanSpan(10000);  //10秒更新下当前位置
         option.setIsNeedAddress(true);
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         mLocationClient.setLocOption(option);
@@ -92,9 +97,11 @@ public class AddCityActivity extends BaseActivity {
         public void onReceiveLocation(final BDLocation bdLocation) {
             // 当前定位
             if (bdLocation.getDistrict()!= null){
-                tvLocatedCity.setText(bdLocation.getDistrict());
+                mDistrict = bdLocation.getDistrict();
+                tvLocatedCity.setText(mDistrict);
             } else {
-                tvLocatedCity.setText(bdLocation.getCity());
+                mCity = bdLocation.getCity();
+                tvLocatedCity.setText(mCity);
             }
 
         }
@@ -265,6 +272,47 @@ public class AddCityActivity extends BaseActivity {
     }
 
     /**
+     * 根据字符串请求城市信息
+     * @param city
+     */
+    public void confirmCity(String city) {
+        String cityUrl = Constant.URL_CITY + city + "&key=" + Constant.URL_WEATHER_KEY;
+        HttpUtils.sendOKHttpRequest(cityUrl, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                ToastUtils.showShort("获取失败");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                try{
+                    MainActivity.instance.finish();
+                }catch (Exception e){
+                    Log.e("WONDERFUL", "nullMainActivity");
+                }
+
+                final String responseText = response.body().string();
+                final SearchCity city = Utility.handleCityResponse(responseText);
+                if (city != null ) {
+                    mDistrict =  city.cities.get(0).basic.city;
+                    //跳转到开始MainActivity
+                    IntentUtils.myIntentString(AddCityActivity.this, MainActivity.class,
+                            Constant.WEATHER_ID,mDistrict);
+                } else {
+                    //跳转到开始MainActivity
+                    IntentUtils.myIntentString(AddCityActivity.this, MainActivity.class,
+                            Constant.WEATHER_ID,mCity);
+                }
+                // 更新sp
+                PrefUtils.setString(AddCityActivity.this, Constant.Pref.WEATHER, null);
+                PrefUtils.setBoolean(AddCityActivity.this, Constant.Pref.FIRST_START, false);
+                finish();
+            }
+        });
+    }
+
+    /**
      * 初始化搜索城市列表
      */
     public void initSearchWordList() {
@@ -281,6 +329,11 @@ public class AddCityActivity extends BaseActivity {
                     holder.getConvertView().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            try{
+                                MainActivity.instance.finish();
+                            }catch (Exception e){
+                                Log.e("WONDERFUL", "nullMainActivity");
+                            }
                             //获取所在城市的id
                             String weatherId = getItem(holder.getPosition()).basic.id;
                             //ToastUtils.showShort(weatherId);
@@ -330,13 +383,7 @@ public class AddCityActivity extends BaseActivity {
     @OnClick(R.id.layout_locate)
     public void setLayoutLocate(){
         if (!StringUtils.removeAllSpace(tvLocatedCity.getText().toString()).equals("")) {
-            //跳转到开始MainActivity
-            IntentUtils.myIntentString(AddCityActivity.this, MainActivity.class,
-                    Constant.WEATHER_ID,tvLocatedCity.getText().toString());
-            // 更新sp
-            PrefUtils.setString(AddCityActivity.this, Constant.Pref.WEATHER, null);
-            PrefUtils.setBoolean(AddCityActivity.this, Constant.Pref.FIRST_START, false);
-            finish();
+            confirmCity(tvLocatedCity.getText().toString());
         }else {
             requestLocation();
         }

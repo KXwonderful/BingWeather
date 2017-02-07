@@ -169,6 +169,8 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
 
     private int SystemStatusType = 0;
 
+    public static MainActivity instance;  //给activity设全局变量，使其可在其他界面中关闭
+
 
     @Override
     protected int initLayoutId() {
@@ -177,6 +179,8 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
 
     @Override
     protected void initView() {
+
+        instance = MainActivity.this;
 
         fragmentManager = getSupportFragmentManager();
 
@@ -547,11 +551,16 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
         }
 
         // 24小时预报
-        for (HourForecast hourForecast : weather.hourForecastList){
-            hour.add(hourForecast.date.substring(11,16));
-            temperature.add(StringUtils.stringToInt(hourForecast.temperature));
+        if (weather.hourForecastList != null && weather.hourForecastList.size() > 0){
+            for (HourForecast hourForecast : weather.hourForecastList){
+                hour.add(hourForecast.date.substring(11,16));
+                temperature.add(StringUtils.stringToInt(hourForecast.temperature));
+            }
+            initLineChart();
+            llForecastHourLayout.setVisibility(View.VISIBLE);
+        } else {
+            llForecastHourLayout.setVisibility(View.GONE);
         }
-        initLineChart();
 
 
         // 空气质量

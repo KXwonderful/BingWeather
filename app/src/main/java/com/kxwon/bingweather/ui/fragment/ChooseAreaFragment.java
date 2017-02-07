@@ -3,6 +3,7 @@ package com.kxwon.bingweather.ui.fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -91,6 +92,11 @@ public class ChooseAreaFragment extends BaseFragment {
                     selectedCity = cityList.get(i);
                     queryCounties();
                 }else if (currentLevel == Constant.LEVEL_COUNTY){
+                    try{
+                        MainActivity.instance.finish();
+                    }catch (Exception e){
+                        Log.e("WONDERFUL", "nullMainActivity");
+                    }
                     String weatherId = countyList.get(i).getWeatherId();
                     Intent intent = new Intent(getActivity(), MainActivity.class);
                     intent.putExtra(Constant.WEATHER_ID,weatherId);
