@@ -363,7 +363,8 @@ public class MainActivity extends BaseActivity implements OnMenuItemClickListene
                 Intent share_localIntent = new Intent("android.intent.action.SEND");
                 share_localIntent.setType("text/plain");
                 share_localIntent.putExtra("android.intent.extra.SUBJECT", "分享");
-                share_localIntent.putExtra("android.intent.extra.TEXT","推荐一个天气app：必应天气" +"链接:"+"xxx");
+                share_localIntent.putExtra("android.intent.extra.TEXT","推荐一个天气app：必应天气"
+                        +"链接:"+"http://zhushou.360.cn/detail/index/soft_id/3686626?recrefer=SE_D_必应天气");
                 this.startActivity(Intent.createChooser(share_localIntent, "分享"));
                 break;
             case 3:

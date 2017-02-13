@@ -29,7 +29,6 @@ import com.kxwon.bingweather.utils.HttpUtils;
 import com.kxwon.bingweather.utils.IntentUtils;
 import com.kxwon.bingweather.utils.PrefUtils;
 import com.kxwon.bingweather.utils.StatusBarUtils;
-import com.kxwon.bingweather.utils.StringUtils;
 import com.kxwon.bingweather.utils.ToastUtils;
 import com.kxwon.bingweather.utils.Utility;
 
@@ -96,14 +95,8 @@ public class AddCityActivity extends BaseActivity {
         @Override
         public void onReceiveLocation(final BDLocation bdLocation) {
             // 当前定位
-            if (bdLocation.getDistrict()!= null){
-                mDistrict = bdLocation.getDistrict();
-                tvLocatedCity.setText(mDistrict);
-            } else {
-                mCity = bdLocation.getCity();
-                tvLocatedCity.setText(mCity);
-            }
-
+            mCity = bdLocation.getCity();
+            tvLocatedCity.setText(mCity);
         }
     }
 
@@ -272,47 +265,6 @@ public class AddCityActivity extends BaseActivity {
     }
 
     /**
-     * 根据字符串请求城市信息
-     * @param city
-     */
-    public void confirmCity(String city) {
-        String cityUrl = Constant.URL_CITY + city + "&key=" + Constant.URL_WEATHER_KEY;
-        HttpUtils.sendOKHttpRequest(cityUrl, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                ToastUtils.showShort("获取失败");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-
-                try{
-                    MainActivity.instance.finish();
-                }catch (Exception e){
-                    Log.e("WONDERFUL", "nullMainActivity");
-                }
-
-                final String responseText = response.body().string();
-                final SearchCity city = Utility.handleCityResponse(responseText);
-                if (city != null ) {
-                    mDistrict =  city.cities.get(0).basic.city;
-                    //跳转到开始MainActivity
-                    IntentUtils.myIntentString(AddCityActivity.this, MainActivity.class,
-                            Constant.WEATHER_ID,mDistrict);
-                } else {
-                    //跳转到开始MainActivity
-                    IntentUtils.myIntentString(AddCityActivity.this, MainActivity.class,
-                            Constant.WEATHER_ID,mCity);
-                }
-                // 更新sp
-                PrefUtils.setString(AddCityActivity.this, Constant.Pref.WEATHER, null);
-                PrefUtils.setBoolean(AddCityActivity.this, Constant.Pref.FIRST_START, false);
-                finish();
-            }
-        });
-    }
-
-    /**
      * 初始化搜索城市列表
      */
     public void initSearchWordList() {
@@ -382,12 +334,19 @@ public class AddCityActivity extends BaseActivity {
      */
     @OnClick(R.id.layout_locate)
     public void setLayoutLocate(){
-        if (!StringUtils.removeAllSpace(tvLocatedCity.getText().toString()).equals("")) {
-            confirmCity(tvLocatedCity.getText().toString());
-        }else {
-            requestLocation();
+        try{
+            MainActivity.instance.finish();
+        }catch (Exception e){
+            Log.e("WONDERFUL", "nullMainActivity");
         }
 
+        //跳转到开始MainActivity
+        IntentUtils.myIntentString(AddCityActivity.this, MainActivity.class,
+                Constant.WEATHER_ID,mCity);
+        // 更新sp
+        PrefUtils.setString(AddCityActivity.this, Constant.Pref.WEATHER, null);
+        PrefUtils.setBoolean(AddCityActivity.this, Constant.Pref.FIRST_START, false);
+        finish();
     }
 
 
